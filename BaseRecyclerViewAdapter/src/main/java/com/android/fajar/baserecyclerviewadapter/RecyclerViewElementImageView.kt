@@ -3,7 +3,7 @@ package com.android.fajar.baserecyclerviewadapter
 import android.widget.ImageView
 import androidx.annotation.DrawableRes
 import androidx.annotation.IdRes
-import com.android.fajar.baserecyclerviewadapter.utils.Helper
+import com.bumptech.glide.Glide
 import java.lang.Exception
 
 abstract class RecyclerViewElementImageView<M> :
@@ -26,7 +26,7 @@ abstract class RecyclerViewElementImageView<M> :
 
     override fun fillView(p0: ImageView?, p1: M?, p2: Int) {
         try {
-            Helper.bindImage(p0, getUrl(p1!!), a)
+            Glide.with(p0!!.context).load(getUrl(p1!!)).error(a).into(p0!!)
         } catch (var4: Exception) {
             var4.printStackTrace()
         }
@@ -34,7 +34,7 @@ abstract class RecyclerViewElementImageView<M> :
 
     override fun fillView(p0: ImageView?, p1: M?) {
         try {
-            Helper.bindImage(p0, getUrl(p1!!), a)
+            Glide.with(p0!!.context).load(getUrl(p1!!)).error(a).into(p0!!)
         } catch (var4: Exception) {
             var4.printStackTrace()
         }
