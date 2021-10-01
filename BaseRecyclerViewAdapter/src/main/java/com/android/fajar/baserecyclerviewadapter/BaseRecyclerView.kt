@@ -1,4 +1,4 @@
-package com.android.fajar.baserecyclerviewadapter
+package com.android.fajar.BaseRecyclerView
 
 import android.R
 import android.content.Context
@@ -11,6 +11,7 @@ import androidx.annotation.LayoutRes
 import androidx.annotation.ColorRes
 import android.view.LayoutInflater
 import android.view.View
+import com.android.fajar.baserecyclerviewadapter.BaseRecyclerViewElement
 import java.lang.Exception
 import java.lang.RuntimeException
 import java.util.ArrayList
@@ -31,7 +32,7 @@ import java.util.HashMap
  *
  */
 
-class BaseRecyclerViewAdapter<M>(
+class BaseRecyclerView<M>(
     var1: Context?,
     var2: List<M>?,
     var3: MutableList<BaseRecyclerViewElement<*, *>>?,
@@ -50,8 +51,8 @@ class BaseRecyclerViewAdapter<M>(
     var16: List<BaseRecyclerViewElement<View, M>?>?,
     var17: OnItemSelectedListener<M>?,
     var18: HashMap<Int?, ItemRootViewGetter?>,
-    var19: BaseRecyclerViewAdapter.OnGetItemViewType<M>?
-) : RecyclerView.Adapter<BaseRecyclerViewAdapter.BaseViewHolder?>() {
+    var19: BaseRecyclerView.OnGetItemViewType<M>?
+) : RecyclerView.Adapter<BaseRecyclerView.BaseViewHolder?>() {
     private val a: Context?
     private val b: List<M>?
     private var c: MutableList<BaseRecyclerViewElement<*, *>>? = null
@@ -73,7 +74,7 @@ class BaseRecyclerViewAdapter<M>(
     @JvmField
     var onItemSelectedListener: OnItemSelectedListener<M>?
     private var o: HashMap<Int?, ItemRootViewGetter?>
-    private var p: BaseRecyclerViewAdapter.OnGetItemViewType<M>? = null
+    private var p: BaseRecyclerView.OnGetItemViewType<M>? = null
     override fun getItemViewType(var1: Int): Int {
         return if (p != null) p!!.getViewType(b!![var1], var1) else 2147483647
     }
@@ -115,10 +116,10 @@ class BaseRecyclerViewAdapter<M>(
                         var3 = BaseViewHolder(var5)
                     } else {
                         Log.v(
-                            BaseRecyclerViewAdapter::class.java.simpleName,
+                            BaseRecyclerView::class.java.simpleName,
                             String.format("No View Found for itemViewType %d", var2))
                         Log.v(
-                            BaseRecyclerViewAdapter::class.java.simpleName,
+                            BaseRecyclerView::class.java.simpleName,
                             "Have you set the default view type using .setLayoutRes() or .setContentView()?")
                     }
                 } catch (var9: Exception) {
@@ -135,11 +136,11 @@ class BaseRecyclerViewAdapter<M>(
                     } else {
 
                         Log.v(
-                            BaseRecyclerViewAdapter::class.java.simpleName,
+                            BaseRecyclerView::class.java.simpleName,
                             String.format("No View Found for itemViewType %d", var2)
                         )
                         Log.v(
-                            BaseRecyclerViewAdapter::class.java.simpleName,
+                            BaseRecyclerView::class.java.simpleName,
                             "Have you set the default view type using .setLayoutRes() or .setContentView()?"
                         )
                     }
@@ -480,7 +481,7 @@ class BaseRecyclerViewAdapter<M>(
                 return true
             } else {
                 try {
-                    Log.v(BaseRecyclerViewAdapter::class.java.simpleName, "This item is already selected!")
+                    Log.v(BaseRecyclerView::class.java.simpleName, "This item is already selected!")
                 } catch (var7: Exception) {
                     var7.printStackTrace()
                 }
@@ -618,7 +619,7 @@ class BaseRecyclerViewAdapter<M>(
             return this
         }
 
-        fun setOnItemRootClickListener(var1: OnItemRootClickListener<M>?): BaseRecyclerViewAdapter.Builder<M> {
+        fun setOnItemRootClickListener(var1: OnItemRootClickListener<M>?): BaseRecyclerView.Builder<M> {
             c = var1
             return this
         }
@@ -639,11 +640,11 @@ class BaseRecyclerViewAdapter<M>(
             return this
         }
 
-        fun build(): BaseRecyclerViewAdapter<M> {
+        fun build(): BaseRecyclerView<M> {
             return if (itemRootViewGetterMap.size <= 0) {
                 throw RuntimeException("You must specify your Layout res Id. Have you call .setLayoutRes(yourLayoutIdRes)?")
             } else {
-                BaseRecyclerViewAdapter<M>(
+                BaseRecyclerView<M>(
                     a,
                     b,
                     e,
@@ -721,7 +722,7 @@ class BaseRecyclerViewAdapter<M>(
                         if (var1 != SELECTION_TYPE_NO_SELECTION) {
                             try {
                                 Log.v(
-                                    BaseRecyclerViewAdapter::class.java.simpleName,
+                                    BaseRecyclerView::class.java.simpleName,
                                     "Selection already defined. The old Selection Type will be replaced."
                                 )
                             } catch (var8: Exception) {
@@ -735,7 +736,7 @@ class BaseRecyclerViewAdapter<M>(
                         if (c != null) {
                             try {
                                 Log.v(
-                                    BaseRecyclerViewAdapter::class.java.simpleName,
+                                    BaseRecyclerView::class.java.simpleName,
                                     "This Adapter already have onItemRootClickListener, onItemRootClickListener will not working and be replaced with the selection mode."
                                 )
                                 c = null
@@ -788,7 +789,7 @@ class BaseRecyclerViewAdapter<M>(
                         if (var1 != SELECTION_TYPE_NO_SELECTION) {
                             try {
                                 Log.v(
-                                    BaseRecyclerViewAdapter::class.java.simpleName,
+                                    BaseRecyclerView::class.java.simpleName,
                                     "Selection already defined. The old Selection Type will be replaced."
                                 )
                             } catch (var5: Exception) {
@@ -802,7 +803,7 @@ class BaseRecyclerViewAdapter<M>(
                         if (c != null) {
                             try {
                                 Log.v(
-                                    BaseRecyclerViewAdapter::class.java.simpleName,
+                                    BaseRecyclerView::class.java.simpleName,
                                     "This Adapter already have onItemRootClickListener, onItemRootClickListener will not working and be replaced with the selection mode.")
                                 c = null
                             } catch (var3: Exception) {
