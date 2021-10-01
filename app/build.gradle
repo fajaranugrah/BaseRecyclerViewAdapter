@@ -1,5 +1,6 @@
 plugins {
     id 'com.android.library'
+    id 'com.android.internal.library'
     id 'kotlin-android'
 }
 
@@ -7,7 +8,6 @@ android {
     compileSdk 31
 
     defaultConfig {
-        applicationId "com.android.fajar.baserecyclerviewadapter"
         minSdk 21
         targetSdk 31
         versionCode 1
