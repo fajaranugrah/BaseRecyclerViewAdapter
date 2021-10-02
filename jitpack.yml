@@ -1,4 +1,5 @@
 jdk:
   - openjdk11
 install:
-  - ./gradlew build :lib:publishToMavenLocal
+  - ./gradlew :BaseRecyclerViewAdapter:build :BaseRecyclerViewAdapter:publishToMavenLocal :BaseRecyclerViewAdapter:test
+  - find . -name "*.aar"
