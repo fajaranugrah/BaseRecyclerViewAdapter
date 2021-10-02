@@ -6,6 +6,6 @@ dependencyResolutionManagement {
         jcenter() // Warning: this repository is going to shut down soon
     }
 }
-rootProject.name = "BaseRecyclerViewAdapter"
+rootProject.name = "BaseRecycler"
 include ':app'
 include ':BaseRecycler'
