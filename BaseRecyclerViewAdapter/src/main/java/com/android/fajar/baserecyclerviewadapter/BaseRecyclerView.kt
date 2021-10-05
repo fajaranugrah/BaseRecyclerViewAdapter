@@ -11,7 +11,6 @@ import androidx.annotation.LayoutRes
 import androidx.annotation.ColorRes
 import android.view.LayoutInflater
 import android.view.View
-import com.android.fajar.baserecyclerviewadapter.BaseRecyclerViewElement
 import java.lang.Exception
 import java.lang.RuntimeException
 import java.util.ArrayList
