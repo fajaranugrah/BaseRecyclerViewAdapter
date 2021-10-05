@@ -1,4 +1,4 @@
-package com.android.fajar.BaseRecyclerView
+package com.android.fajar.baserecyclerviewadapter
 
 import android.R
 import android.content.Context
