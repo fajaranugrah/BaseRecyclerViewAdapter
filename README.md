@@ -1,3 +1,5 @@
+[![](https://jitpack.io/v/fajaranugrah/BaseRecyclerViewAdapter.svg)](https://jitpack.io/#fajaranugrah/BaseRecyclerViewAdapter)
+
 # BaseRecyclerViewAdapter
 
 add this one first
