@@ -33,7 +33,7 @@ import java.util.HashMap
 
 class BaseRecyclerView<M>(
     var1: Context?,
-    var2: List<M>?,
+    var2: MutableList<M>,
     var3: MutableList<BaseRecyclerViewElement<*, *>>?,
     var4: OnItemRootClickListener<M>?,
     var5: OnItemRootLongClickListener<M>?,
@@ -46,14 +46,14 @@ class BaseRecyclerView<M>(
     var12: Float,
     var13: Float,
     var14: Int,
-    var15: List<BaseRecyclerViewElement<View, M>?>?,
-    var16: List<BaseRecyclerViewElement<View, M>?>?,
+    var15: MutableList<BaseRecyclerViewElement<View, M>?>?,
+    var16: MutableList<BaseRecyclerViewElement<View, M>?>?,
     var17: OnItemSelectedListener<M>?,
     var18: HashMap<Int?, ItemRootViewGetter?>,
     var19: BaseRecyclerView.OnGetItemViewType<M>?
 ) : RecyclerView.Adapter<BaseRecyclerView.BaseViewHolder?>() {
     private val a: Context?
-    private val b: List<M>?
+    private var b: MutableList<M> = mutableListOf()
     private var c: MutableList<BaseRecyclerViewElement<*, *>>? = null
     private var d: OnItemRootClickListener<M>? = null
     private var e: OnItemRootLongClickListener<M>? = null
@@ -430,7 +430,7 @@ class BaseRecyclerView<M>(
 
     override fun getItemCount(): Int {
         try {
-            return b!!.size
+            return this.b!!.size
         } catch (var2: Exception) {
             var2.printStackTrace()
             return 0
@@ -441,7 +441,7 @@ class BaseRecyclerView<M>(
         return selectedItemPositions
     }
 
-    val selectedItems: List<M>
+    val selectedItems: MutableList<M>
         get() {
             val var1: ArrayList<M> = ArrayList<M>()
             val var2: Iterator<*> = selectedItemPositions.iterator()
@@ -453,7 +453,7 @@ class BaseRecyclerView<M>(
                     var5.printStackTrace()
                 }
             }
-            return var1.toList() as List<M>
+            return var1.toList() as MutableList<M>
         }
 
     private fun a(var1: Int, var2: Boolean): Boolean {
@@ -536,9 +536,9 @@ class BaseRecyclerView<M>(
         n = var1
     }
 
-    class Builder<M>(var1: Context, var2: List<M>?) {
+    class Builder<M>(var1: Context, var2: MutableList<M>) {
         var a: Context? = null
-        var b: List<M>? = null
+        var b: MutableList<M> = mutableListOf()
         var c: OnItemRootClickListener<M>? = null
         var d: OnItemRootLongClickListener<M>? = null
         var e: MutableList<BaseRecyclerViewElement<*, *>>? = ArrayList()
