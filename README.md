@@ -2,7 +2,13 @@
 
 # BaseRecyclerViewAdapter
 
-add this one first
+use Gradle:
+
+```
+implementation 'com.github.fajaranugrah:BaseRecyclerViewAdapter:version'
+```
+
+and add
 
 ```
 allprojects {
@@ -13,8 +19,53 @@ allprojects {
 }
 ```
 
-for using my library
+example one layout
+```
+val adapter = this@DashboardFragment.activity?.let { activity ->
+            BaseRecyclerView.Builder<User>(activity, dataUser)
+                ?.setContentView(R.layout.recycler_view_name_row)
+                ?.setOnItemRootClickListener(object : BaseRecyclerView.OnItemRootClickListener<User> {
+                    override fun onItemRootClick(var1: User, var2: Int) {
+                        Log.e("onClick", "yeah click ${var1.name}")
+                    }
+                })
+                ?.addElement(object : RecyclerViewElementTextView<User?>(R.id.tv_1) {
+                    override fun getText(var1: User?): CharSequence? {
+                        return var1?.name
+                    }
+                })
+                ?.build()
+        }
+binding.rvResult.adapter = adapter
+```
+
+example twice layout
 
 ```
-implementation 'com.github.fajaranugrah:BaseRecyclerViewAdapter:version'
+val adapter = this@DashboardFragment.activity?.let { activity ->
+            BaseRecyclerView.Builder<User>(activity, dataUser)
+                .setOnGetItemViewType(object : BaseRecyclerView.OnGetItemViewType<User> {
+                    override fun getViewType(var1: User, var2: Int): Int {
+                        return if (TYPE_SHIMMER == var1.viewType) {
+                            1
+                        } else {
+                            0
+                        }
+                    }
+                })
+                ?.addLayoutResForViewType(0, R.layout.recycler_view_name_row)
+                ?.addLayoutResForViewType(1, R.layout.recycler_view_name_shimmer_row)
+                ?.setOnItemRootClickListener(object : BaseRecyclerView.OnItemRootClickListener<User> {
+                    override fun onItemRootClick(var1: User, var2: Int) {
+                        Log.e("onClick", "yeah click ${var1.name}")
+                    }
+                })
+                ?.addElement(object : RecyclerViewElementTextView<User?>(R.id.tv_1) {
+                    override fun getText(var1: User?): CharSequence? {
+                        return var1?.name
+                    }
+                }, 0)
+                ?.build()
+        }
+binding.rvResult.adapter = adapter
 ```
