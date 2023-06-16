@@ -2,19 +2,16 @@ package com.android.fajar.baserecyclerviewadapter
 
 import android.R
 import android.content.Context
-import androidx.recyclerview.widget.RecyclerView
-import android.view.ViewGroup
-import androidx.cardview.widget.CardView
 import android.os.Build
 import android.util.Log
-import androidx.annotation.LayoutRes
-import androidx.annotation.ColorRes
 import android.view.LayoutInflater
 import android.view.View
-import java.lang.Exception
-import java.lang.RuntimeException
-import java.util.ArrayList
-import java.util.HashMap
+import android.view.ViewGroup
+import androidx.annotation.ColorRes
+import androidx.annotation.LayoutRes
+import androidx.cardview.widget.CardView
+import androidx.recyclerview.widget.RecyclerView
+
 
 /**
  * Created by
@@ -50,7 +47,7 @@ class BaseRecyclerView<M>(
     var16: MutableList<BaseRecyclerViewElement<View, M>?>?,
     var17: OnItemSelectedListener<M>?,
     var18: HashMap<Int?, ItemRootViewGetter?>,
-    var19: BaseRecyclerView.OnGetItemViewType<M>?
+    var19: BaseRecyclerView.OnGetItemViewType<M>?,
 ) : RecyclerView.Adapter<BaseRecyclerView.BaseViewHolder?>() {
     private val a: Context?
     private var b: MutableList<M> = mutableListOf()
@@ -711,7 +708,7 @@ class BaseRecyclerView<M>(
         fun setSelectionType(
             var1: Int,
             var2: List<BaseRecyclerViewElement<View?, M>?>?,
-            var3: List<BaseRecyclerViewElement<View, M>?>?
+            var3: List<BaseRecyclerViewElement<View, M>?>?,
         ): Builder<M> {
             if ((var1 != SELECTION_TYPE_NO_SELECTION) && (var1 != SELECTION_TYPE_SINGLE_CAN_EMPTY) && (var1 != SELECTION_TYPE_SINGLE_CANNOT_EMPTY) && (var1 != SELECTION_TYPE_MULTIPLE)) {
                 n = SELECTION_TYPE_NO_SELECTION
@@ -909,6 +906,120 @@ class BaseRecyclerView<M>(
     class BaseViewHolder(var rootView: View?) : RecyclerView.ViewHolder(
         (rootView)!!
     )
+
+    fun checkBoolean(
+        baseRecyclerViewAdapter: BaseRecyclerView<*>,
+        var1: Int,
+        var2: Boolean,
+    ): Boolean {
+        return if (var2) {
+            var var12 = false
+            try {
+                val var4: Iterator<*> = baseRecyclerViewAdapter.selectedItemPositions.iterator()
+                while (var4.hasNext()) {
+                    val var5 = var4.next() as Int
+                    try {
+                        if (var5 == var1) {
+                            var12 = true
+                            break
+                        }
+                    } catch (var9: Exception) {
+                        var9.printStackTrace()
+                    }
+                }
+            } catch (var10: Exception) {
+                var10.printStackTrace()
+            }
+            if (!var12) {
+                baseRecyclerViewAdapter.selectedItemPositions.add(var1)
+                true
+            } else {
+                try {
+                    Log.v(BaseRecyclerView::class.java.simpleName, "This item is already selected!")
+                } catch (var7: Exception) {
+                    var7.printStackTrace()
+                }
+                false
+            }
+        } else {
+            try {
+                for (var3 in baseRecyclerViewAdapter.selectedItemPositions.indices) {
+                    try {
+                        if (baseRecyclerViewAdapter.selectedItemPositions[var3] as Int == var1) {
+                            baseRecyclerViewAdapter.selectedItemPositions.removeAt(var3)
+                            return true
+                        }
+                    } catch (var8: Exception) {
+                        var8.printStackTrace()
+                    }
+                }
+            } catch (var11: Exception) {
+                var11.printStackTrace()
+            }
+            false
+        }
+    }
+
+    fun <M> setSingleCanNotEmpty(baseRecyclerViewAdapter: BaseRecyclerView<M>, pos: Int, model: M) {
+        try {
+            if (!baseRecyclerViewAdapter.selectedItemPositions.contains(pos)) {
+                val var3: Iterator<*> = baseRecyclerViewAdapter.selectedItemPositions.iterator()
+                while (var3.hasNext()) {
+                    val var4 = var3.next() as Int
+                    if (baseRecyclerViewAdapter.onItemSelectedListener != null) {
+                        if (baseRecyclerViewAdapter.onItemSelectedListener!!.onBeforeItemDeselect(
+                                model,
+                                var4,
+                                true
+                            )
+                        ) {
+                            checkBoolean(
+                                baseRecyclerViewAdapter,
+                                var4,
+                                false
+                            )
+                            baseRecyclerViewAdapter.onItemSelectedListener!!.onAfterItemDeselect(
+                                model,
+                                var4,
+                                true
+                            )
+                        }
+                    } else {
+                        checkBoolean(baseRecyclerViewAdapter, var4, false)
+                    }
+                    try {
+                        baseRecyclerViewAdapter.notifyItemChanged(var4)
+                    } catch (var7: Exception) {
+                        var7.printStackTrace()
+                    }
+                }
+                if (baseRecyclerViewAdapter.onItemSelectedListener != null) {
+                    if (baseRecyclerViewAdapter.onItemSelectedListener!!.onBeforeItemSelect(
+                            model,
+                            pos,
+                            true
+                        )
+                    ) {
+                        checkBoolean(baseRecyclerViewAdapter, pos, true)
+                        baseRecyclerViewAdapter.onItemSelectedListener!!.onAfterItemSelect(
+                            model,
+                            pos,
+                            true
+                        )
+                    }
+                } else {
+                    checkBoolean(baseRecyclerViewAdapter, pos, true)
+                }
+                try {
+                    baseRecyclerViewAdapter.notifyItemChanged(pos)
+                } catch (var6: Exception) {
+                    var6.printStackTrace()
+                }
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
 
     companion object {
         lateinit var Builder: Any
